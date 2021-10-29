@@ -1,16 +1,20 @@
 let
-    pkgs = import <nixpkgs> {
+    pkgs = import <nixpkgs> {};
+    inherit (pkgs) lib;
+    buildPkgs = import <nixpkgs> {
         crossSystem = {
             config = "aarch64-unknown-linux-gnu";
         };
     };
-    nixos = pkgs.nixos {
+    nixos = buildPkgs.nixos {
         imports = [
             <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix>
-            # Provide an initial copy of the NixOS channel so that the user
-            # doesn't need to run "nix-channel --update" first.
-            <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
             ./hardware-configuration.nix
+        ];
+        nix.nixPath = [
+            "nixpkgs=${if lib.isStorePath <nixpkgs> then
+                <nixpkgs> else pkgs.copyPathToStore <nixpkgs>
+            }"
         ];
     };
 in nixos.config.system.build.isoImage

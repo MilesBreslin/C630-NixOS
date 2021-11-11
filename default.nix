@@ -18,4 +18,5 @@ let
 in {
   iso = nixos.config.system.build.isoImage;
   inherit (nixos) config pkgs;
+  inherit pkgsPath;
 }

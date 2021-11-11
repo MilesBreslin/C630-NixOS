@@ -15,9 +15,10 @@ let
     url = "https://github.com/aarch64-laptops/build/archive/dfce25bc12655713c7e1e0422b191e9c944e4fb2.zip";
     sha256 = "0cffp3h3jrf0r1qg1xjmwadwds12nnab3crh3r1xdv6mmk72597f";
   };
+  kernel = pkgs.linux_latest;
 in {
   boot = {
-    kernelPackages = pkgs.zfsStable.latestCompatibleLinuxPackages;
+    kernelPackages = pkgs.linuxPackagesFor kernel;
     kernelParams = [
       "efi=novamap"
       "ignore_loglevel"
@@ -25,6 +26,16 @@ in {
       "pd_ignore_unused"
       "console=tty0"
     ];
+    kernelPatches = [
+      {
+        name = "enable-dtb";
+        patch = null;
+        extraConfig = ''
+          DTB y
+        '';
+      }
+    ];
+    supportedFilesystems = lib.mkForce [ "btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs" ];
   };
   hardware.firmware = [ fw ];
   hardware.enableRedistributableFirmware = true;

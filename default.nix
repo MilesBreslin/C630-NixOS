@@ -5,10 +5,18 @@ let
         sha256 = "1wd594najdva5gzckdb5hl4qxxcjjydcyd1lz26dy29ayqszwh6z";
     };
     inherit (pkgs) lib;
-    buildPkgs = import pkgsPath {};
+    buildPkgs = import pkgsPath (if (builtins.currentSystem == "aarch64-linux") then
+        {
+            system = "aarch64-linux";
+        }
+        else
+        {
+            crossSystem.config = "aarch64-unknown-linux-gnu";
+        }
+    );
     nixos = buildPkgs.nixos {
         imports = [
-            (pkgsPath + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-plasma5.nix")
+            (pkgsPath + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
             ./hardware-configuration.nix
         ];
         nix.nixPath = [
@@ -19,4 +27,5 @@ in {
   iso = nixos.config.system.build.isoImage;
   inherit (nixos) config pkgs;
   inherit pkgsPath;
+  kernel = nixos.config.boot.kernelPackages.kernel;
 }

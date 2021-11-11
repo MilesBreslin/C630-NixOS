@@ -26,15 +26,6 @@ in {
       "pd_ignore_unused"
       "console=tty0"
     ];
-    kernelPatches = [
-      {
-        name = "enable-dtb";
-        patch = null;
-        extraConfig = ''
-          DTB y
-        '';
-      }
-    ];
     supportedFilesystems = lib.mkForce [ "btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs" ];
   };
   hardware.firmware = [ fw ];

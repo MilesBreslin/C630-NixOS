@@ -8,7 +8,7 @@ let
     });
     nixos = buildPkgs.nixos {
         imports = [
-            <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix>
+            <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-graphical-plasma5.nix>
             ./hardware-configuration.nix
         ];
         nix.nixPath = [

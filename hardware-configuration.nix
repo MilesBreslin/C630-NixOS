@@ -17,7 +17,7 @@ let
   };
 in {
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_latest.overrideAttrs (_: { configfile = ./config ; }));
     kernelParams = [
       "efi=novamap"
       "ignore_loglevel"

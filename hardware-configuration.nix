@@ -17,7 +17,7 @@ let
   };
 in {
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_latest.overrideAttrs (_: { configfile = ./config ; }));
+    kernelPackages = pkgs.zfsStable.latestCompatibleLinuxPackages;
     kernelParams = [
       "efi=novamap"
       "ignore_loglevel"
@@ -28,7 +28,10 @@ in {
   };
   hardware.firmware = [ fw ];
   hardware.enableRedistributableFirmware = true;
-  hardware.deviceTree.filter = "sdm850-lenovo-yoga-c630.*";
+  hardware.deviceTree = {
+    enable = true;
+    filter = "sdm850-lenovo-yoga-c630.*";
+  };
   isoImage.contents = [
     {
       source = "${config.hardware.deviceTree.package}";

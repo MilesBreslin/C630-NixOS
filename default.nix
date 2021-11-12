@@ -18,14 +18,17 @@ let
         imports = [
             (pkgsPath + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
             ./hardware-configuration.nix
+            ./graphical.nix
+            ./configuration.nix
         ];
         nix.nixPath = [
             "nixpkgs=${pkgsPath}"
         ];
     };
 in {
-  iso = nixos.config.system.build.isoImage;
-  inherit (nixos) config pkgs;
-  inherit pkgsPath;
-  kernel = nixos.config.boot.kernelPackages.kernel;
+    iso = nixos.config.system.build.isoImage;
+    inherit (nixos) config pkgs;
+    inherit pkgsPath;
+    kernel = nixos.config.boot.kernelPackages.kernel;
+    system = nixos.config.system.build.toplevel;
 }

@@ -5,7 +5,7 @@ let
         sha256 = "1wd594najdva5gzckdb5hl4qxxcjjydcyd1lz26dy29ayqszwh6z";
     };
     inherit (pkgs) lib;
-    buildPkgs = import pkgsPath (if (builtins.currentSystem == "aarch64-linux") then
+    buildPkgs = import pkgsPath (if true then
         {
             system = "aarch64-linux";
         }

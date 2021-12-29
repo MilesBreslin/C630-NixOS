@@ -173,4 +173,9 @@ in {
 #      dtsFile = aarch64Laptops + "/misc/lenovo-yoga-c630/laptop-lenovo-yoga-c630.dts";
 #    }
 #  ];
+  nixpkgs.overlays = [
+    (self: super: {
+      systemd = super.systemd.override { withHwdb = false; };
+    })
+  ];
 }
